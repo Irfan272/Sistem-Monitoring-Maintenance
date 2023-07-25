@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\PengajuanPerbaikan;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -33,16 +34,22 @@ class UserController extends Controller
 
 
     public function index(){
-        $permintaan = PengajuanPerbaikan::with('peralatan', 'user')->paginate(10);
 
-        return view('penanggung_jawab.permintaan_perbaikan.index', compact('permintaan'));
+        $user = Auth::user()->id;
+        $result = PengajuanPerbaikan::with('peralatan', 'user')
+                ->where('id_user', $user)
+                ->get();
+
+        // $permintaan = PengajuanPerbaikan::with('peralatan', 'user')->get();
+
+        return view('penanggung_jawab.permintaan_perbaikan.index', compact('result'));
     }
 
     public function create(){
         $peralatan = Peralatan::all();
-        $user = User::where('role', 'Teknisi')->get();
+        // $user = User::where('role', 'Teknisi')->get();
 
-        return view('penanggung_jawab.permintaan_perbaikan.create', compact('peralatan', 'user'));
+        return view('penanggung_jawab.permintaan_perbaikan.create', compact('peralatan'));
     }
 
     public function store(Request $request){
@@ -61,20 +68,18 @@ class UserController extends Controller
         // ]);
 
         $validasiData = $request->validate([
-            'nama_divisi' => 'nullable|string|max:10',
-            'keterangan' => 'nullable|string|max:50',
+       
 
             'judul' => 'required|max:255',
             'id_peralatan' => 'required',
-            'id_user' =>  'required',
             'keterangan' => 'required|max:255',
             'prioritas' => 'required|max:255',
             'lokasi' => 'required|max:255',
-          
-            'status' => 'nullable|max:50',
-            'id_teknisi' => 'nullable|max:50',
 
         ]);
+
+        $status = "Menunggu Approval";
+        $user = Auth::id();
 
         $prioritas = $request->input('prioritas');
         $tanggal_pekerjaan = Carbon::today();
@@ -90,6 +95,8 @@ class UserController extends Controller
         }
 
         $validasiData['tanggal_pekerjaan'] = $tanggal_pekerjaan;
+        $validasiData['id_user'] = $user;
+        $validasiData['status'] = $status;
 
 
 
@@ -123,20 +130,36 @@ class UserController extends Controller
         // ]);
 
         $validasiData = $request->validate([
-            'nama_divisi' => 'nullable|string|max:10',
-            'keterangan' => 'nullable|string|max:50',
 
             'judul' => 'required|max:255',
             'id_peralatan' => 'required',
-            'id_user' =>  'required',
             'keterangan' => 'required|max:255',
             'prioritas' => 'required|max:255',
             'lokasi' => 'required|max:255',
-            'tanggal_pekerjaan' => 'required|max:255',
-            'status' => 'nullable|max:50',
-            'id_teknisi' => 'nullable|max:50',
 
         ]);
+
+
+        $status = "Menunggu Approval";
+        $user = Auth::id();
+
+        $prioritas = $request->input('prioritas');
+        $tanggal_pekerjaan = Carbon::today();
+
+        if($prioritas === 'critical'){
+            $tanggal_pekerjaan->addDays(2);
+        }elseif($prioritas === 'hight'){
+            $tanggal_pekerjaan->addDays(14);
+        }elseif($prioritas === 'medium'){
+            $tanggal_pekerjaan->addDays(30);
+        }elseif($prioritas === 'low'){
+            $tanggal_pekerjaan->addDays(90);
+        }
+
+        $validasiData['tanggal_pekerjaan'] = $tanggal_pekerjaan;
+        $validasiData['id_user'] = $user;
+        $validasiData['status'] = $status;
+
         PengajuanPerbaikan::where('id', $id)->update($validasiData);
 
 

@@ -5,14 +5,14 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Data Peralatan</h3>
-                <a href="/user/permintaan/create" class="btn btn-success me-1 mb-3 mt-2" id="success" ><i class="bi bi-plus"></i> <span>Tambah Data Peralatan</span></a>
+                <h3>Pengajuan Perbaikan</h3>
+                <a href="/user/permintaan/create" class="btn btn-success me-1 mb-3 mt-2" id="success" ><i class="bi bi-plus"></i> <span>Tambah Pengajuan Perbaikan</span></a>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        <li class="breadcrumb-item active" aria-current="page">Permintaan Perbaikan</li>
                     </ol>
                 </nav>
             </div>
@@ -25,9 +25,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode Perbaikan</th>
                             <th>Judul</th>
                             <th>Mesin</th>
-                            <th>User</th>
+                            <th>Penanggung Jawab</th>
                             <th>Prioritas</th>
                             <th>Lokasi</th>
                             <th>Tanggal Pengerjaan</th>
@@ -36,9 +37,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($permintaan as $data)
+                        @foreach ($result as $data)
                         <tr>
                             <td>{{$loop->iteration}}</td>
+                            <td>PB-0{{$data->id}}</td>
                             <td>{{$data->judul}}</td>
                             <td>{{$data->peralatan->nama_peralatan}}</td>
                             <td>{{$data->user->username}}</td>
@@ -46,7 +48,7 @@
                             <td>{{$data->lokasi}}</td>
                             <td>{{$data->tanggal_pekerjaan}}</td>
                              <td>
-                                <span class="badge bg-success">Active</span>
+                                {{$data->status}}
                             </td>
                             <td>
                                 <button type="submit" class="btn m-1 icon icon-left btn-info" data-bs-toggle="modal"
@@ -68,7 +70,13 @@
                        
                         
                     </tbody>
+
                 </table>
+                {{-- @if($result->hasPages())
+                <div class="card-footer">
+                    {{ $result->links() }}
+                </div>
+                @endif --}}
             </div>
         </div>
 
@@ -77,100 +85,77 @@
      <!--View Modal -->
  
 
-     <!--View Modal -->
-     <div class="modal fade" id="perawatanModal" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-     <div class="modal-dialog modal-dialog-scrollable" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalScrollableTitle">Data Akun : Irfan Fadillah</h5>
-                 <button type="button" class="close" data-bs-dismiss="modal"
-                     aria-label="Close">
-                     <i data-feather="x"></i>
-                 </button>
-             </div>
-             <div class="modal-body">
-                <form action="#">
-                    <div class="modal-body">
-                        <label>Username: </label>
-                        <div class="form-group">
-                            <input type="text" placeholder="Username" id="username"
-                                class="form-control">
+     @foreach ($result as $data)
+     <div class="modal fade" id="permintaanModal{{$data->id}}"" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-scrollable" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalScrollableTitle">Data Perbaikan : {{$data->judul}}</h5>
+                     <button type="button" class="close" data-bs-dismiss="modal"
+                         aria-label="Close">
+                         <i data-feather="x"></i>
+                     </button>
+                 </div>
+                 <div class="modal-body">
+                    <form action="#">
+                        <div class="modal-body">
+                            <label>Nama Peralatan: </label>
+                            <div class="form-group">
+                                <input type="text" placeholder="Username" id="id_peralatan"
+                                    class="form-control" value=" {{$data->peralatan->nama_peralatan}}" disabled>
+                            </div>
+                            <label>Keterangan: </label>
+                            <div class="form-group">
+                                <textarea type="text" placeholder="Nama Lengkap" id="keterangan"
+                                    class="form-control" disabled>{{$data->keterangan}}</textarea>
+                            </div>
+                            <label>Prioritas: </label>
+                            <div class="form-group">
+                                <input type="text" placeholder="Email Address" id="prioritas"
+                                    class="form-control" value=" {{$data->prioritas}}" disabled>
+                            </div>
+                            <label>Lokasi: </label>
+                            <div class="form-group">
+                                <input type="text" placeholder="Email Address" id="lokasi"
+                                class="form-control" value=" {{$data->lokasi}}" disabled>
+                            </div>
+                            {{-- <label>Tempat Lahir: </label>
+                            <div class="form-group">
+                                <input type="text" placeholder="Tempat Lahir"
+                                    class="form-control" value=" {{$data->tempat_lahir}}" disabled>
+                            </div> --}}
+                            <label>Tanggal Pekerjaan: </label>
+                            <div class="form-group">
+                                <input type="date" id="tanggal_pekerjaan" placeholder="Email Address"
+                                    class="form-control" value=" {{$data->tanggal_pekerjaan}}" disabled>
+                            </div>
+                            <label>Status: </label>
+                            <div class="form-group">
+                                <input ype="text" id="status" placeholder="Alamat"
+                                    class="form-control" value=" {{$data->status}}" disabled>
+                            </div>
+                           
                         </div>
-                        <label>Nama Lengkap: </label>
-                        <div class="form-group">
-                            <input type="text" placeholder="Nama Lengkap" id="nama_lengkap"
-                                class="form-control">
-                        </div>
-                        <label>Email: </label>
-                        <div class="form-group">
-                            <input type="text" placeholder="Email Address" id="email"
-                                class="form-control">
-                        </div>
-                        <label>Password: </label>
-                        <div class="form-group">
-                            <input type="password" placeholder="Password" id="password"
-                                class="form-control">
-                        </div>
-                        <label>Tanggal Lahir: </label>
-                        <div class="form-group">
-                            <input type="date" id="tanggal_lahir" placeholder="Tanggal Lahir"
-                                class="form-control">
-                        </div>
-                        <label>Tempat Lahir: </label>
-                        <div class="form-group">
-                            <input type="password" placeholder="Tempat Lahir"
-                                class="form-control">
-                        </div>
-                        <label>Jenis Kelamin: </label>
-                        <div class="form-group">
-                            <input type="text" id="jenis_kelamin" placeholder="Email Address"
-                                class="form-control">
-                        </div>
-                        <label>Alamat: </label>
-                        <div class="form-group">
-                            <input ype="text" id="alamat" placeholder="Alamat"
-                                class="form-control">
-                        </div>
-                        <label>Nomor Telepon: </label>
-                        <div class="form-group">
-                            <input type="text" id="nomor_telpon" placeholder="Nomor Telepon"
-                                class="form-control">
-                        </div>
-                        <label>Jabatan: </label>
-                        <div class="form-group">
-                            <input type="text" id="jabatan" placeholder="Jabatan"
-                                class="form-control">
-                        </div>
-                        <label>Divisi: </label>
-                        <div class="form-group">
-                            <input  type="text" id="divisi"  placeholder="Divisi"
-                                class="form-control">
-                        </div>
-                        <label>Role: </label>
-                        <div class="form-group">
-                            <input type="text" id="role" placeholder="Role"
-                                class="form-control">
-                        </div>
+                      
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary"
+                            data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
+                        {{-- <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Accept</span>
+                        </button> --}}
                     </div>
-                  
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary"
-                        data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
-                    </button>
-                    {{-- <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
-                    </button> --}}
-                </div>
+                 </div>
+              
              </div>
-          
          </div>
-     </div>
-    </div>
+        </div>
+     @endforeach
 </div>
 @endsection
 

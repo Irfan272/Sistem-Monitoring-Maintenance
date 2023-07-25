@@ -25,7 +25,7 @@
                 </a>
                 <ul class="submenu ">
                     <li class="submenu-item ">
-                        <a href="/manager/perawatan/">Penjadwalan Perawatan</a>
+                        <a href="/manager/perawatan/"> Perawatan Rutin</a>
                     </li>
                     <li class="submenu-item ">
                         <a href="/manager/perbaikan">Approval Perbaikan</a>
@@ -47,7 +47,7 @@
                         <a href="/manager/cetak-perawatan/">Laporan Perawatan</a>
                     </li>
                     <li class="submenu-item ">
-                        <a href="/manager/perbaikan">Approval Perbaikan</a>
+                        <a href="/manager/cetak-perbaikan">Laporan Perbaikan</a>
                     </li>
                     
                 </ul>

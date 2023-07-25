@@ -98,40 +98,22 @@ Route::middleware(['auth','CheckRole:ITSupport'])->group(function (){
 });
 
 
+Route::middleware(['auth','CheckRole:User'])->group(function (){
+    Route::get('/user/dashboard', [App\Http\Controllers\UserController::class, 'dashboard']);
+    Route::get('/user/permintaan', [App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/user/permintaan/create', [App\Http\Controllers\UserController::class, 'create']);
+    Route::post('/user/permintaan/store', [App\Http\Controllers\UserController::class, 'store']);
+    Route::get('/user/permintaan/edit/{id}', [App\Http\Controllers\UserController::class, 'edit']);
+    Route::patch('/user/permintaan/update/{id}', [App\Http\Controllers\UserController::class, 'update']);
+    Route::delete('/user/permintaan/delete/{id}', [App\Http\Controllers\UserController::class, 'delete']);
+    Route::get('/user/permintaan/show/{id}', [App\Http\Controllers\UserController::class, 'show']);
+    
+    
+});
 
 
 
-
-
-
-
-
-
-
-// Route::get('/IT/role', [App\Http\Controllers\ITController::class, 'indexRole'])->middleware('auth');
-// Route::get('/IT/role/create', [App\Http\Controllers\ITController::class, 'createRole'])->middleware('auth');
-// Route::post('/IT/role/store', [App\Http\Controllers\ITController::class, 'storeRole'])->middleware('auth');
-// Route::get('/IT/role/edit/{id}', [App\Http\Controllers\ITController::class, 'editRole'])->middleware('auth');
-// Route::patch('/IT/role/update/{id}', [App\Http\Controllers\ITController::class, 'updateRole'])->middleware('auth');
-// Route::delete('/IT/role/delete/{id}', [App\Http\Controllers\ITController::class, 'deleteRole'])->middleware('auth');
-// Route::get('/IT/role/show/{id}', [App\Http\Controllers\ITController::class, 'showRole'])->middleware('auth');
-// End IT Support
-
-
-// Start Penanggung Jawab
-Route::get('/user/dashboard', [App\Http\Controllers\UserController::class, 'dashboard']);
-Route::get('/user/permintaan', [App\Http\Controllers\UserController::class, 'index']);
-Route::get('/user/permintaan/create', [App\Http\Controllers\UserController::class, 'create']);
-Route::post('/user/permintaan/store', [App\Http\Controllers\UserController::class, 'store'])->middleware('auth');
-Route::get('/user/permintaan/edit/{id}', [App\Http\Controllers\UserController::class, 'edit'])->middleware('auth');
-Route::patch('/user/permintaan/update/{id}', [App\Http\Controllers\UserController::class, 'update'])->middleware('auth');
-Route::delete('/user/permintaan/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->middleware('auth');
-Route::get('/user/permintaan/show/{id}', [App\Http\Controllers\UserController::class, 'show'])->middleware('auth');
-
-
-// End Penanggung Jawab
-
-
+Route::middleware(['auth','CheckRole:Manager'])->group(function (){
 // Start Manager MT
 Route::get('/manager/dashboard', [App\Http\Controllers\ManagerController::class, 'home']); //->middleware('auth')
 Route::get('/manager/perbaikan', [App\Http\Controllers\ManagerPerbaikanController::class, 'index']);
@@ -158,24 +140,51 @@ Route::get('/manager/cetak-perawatan-pertanggal/{tanggal_awal}/{tanggal_akhir}',
 Route::get('/manager/cetak-riwayat', [App\Http\Controllers\ManagerController::class, 'cetakRiwayat']);
 Route::get('/manager/cetak-riwayat-peralatan/{nama_peralatan}', [App\Http\Controllers\ManagerController::class, 'cetakRiwayatPeralatan'])->name('cetak-perawatan-pertanggal');
 
+Route::get('/manager/cetak-perbaikan', [App\Http\Controllers\ManagerPerbaikanController::class, 'cetakPerbaikan']);
+Route::get('/manager/cetak-perbaikan-pertanggal/{tanggal_awal}/{tanggal_akhir}', [App\Http\Controllers\ManagerPerbaikanController::class, 'cetakPerbaikanPertanggal'])->name('cetak-perbaikan-pertanggal');
 
 
 // End Manager MT
+});
 
+// Route::get('/IT/role', [App\Http\Controllers\ITController::class, 'indexRole'])->middleware('auth');
+// Route::get('/IT/role/create', [App\Http\Controllers\ITController::class, 'createRole'])->middleware('auth');
+// Route::post('/IT/role/store', [App\Http\Controllers\ITController::class, 'storeRole'])->middleware('auth');
+// Route::get('/IT/role/edit/{id}', [App\Http\Controllers\ITController::class, 'editRole'])->middleware('auth');
+// Route::patch('/IT/role/update/{id}', [App\Http\Controllers\ITController::class, 'updateRole'])->middleware('auth');
+// Route::delete('/IT/role/delete/{id}', [App\Http\Controllers\ITController::class, 'deleteRole'])->middleware('auth');
+// Route::get('/IT/role/show/{id}', [App\Http\Controllers\ITController::class, 'showRole'])->middleware('auth');
+// End IT Support
+
+
+// Start Penanggung Jawab
+
+// End Penanggung Jawab
+
+Route::middleware(['auth','CheckRole:Teknisi'])->group(function (){
+
+});
 
 // Start Teknisi
-Route::get('/teknisi/dashboard', [App\Http\Controllers\TeknisiController::class, 'home'])->middleware('auth');
-Route::get('/teknisi/perbaikan', [App\Http\Controllers\TeknisiController::class, 'indexPerbaikan'])->middleware('auth');
-Route::get('/teknisi/perawatan/edit/{id}', [App\Http\Controllers\TeknisiController::class, 'edit'])->middleware('auth');
-Route::patch('/teknisi/perawatan/update/{id}', [App\Http\Controllers\TeknisiController::class, 'update'])->middleware('auth');
-Route::delete('/teknisi/perawatan/delete/{id}', [App\Http\Controllers\TeknisiController::class, 'delete'])->middleware('auth');
-Route::get('/teknisi/perawatan/show/{id}', [App\Http\Controllers\TeknisiController::class, 'show'])->middleware('auth');
+Route::get('/teknisi/dashboard', [App\Http\Controllers\TeknisiController::class, 'home']);
+Route::get('/teknisi/perbaikan', [App\Http\Controllers\TeknisiController::class, 'indexPerbaikan']);
+Route::get('/teknisi/perbaikan/edit/{id}', [App\Http\Controllers\TeknisiController::class, 'editPerbaikan']);
+Route::patch('/teknisi/perbaikan/update/{id}', [App\Http\Controllers\TeknisiController::class, 'updatePerbaikan']);
+Route::delete('/teknisi/perbaikan/delete/{id}', [App\Http\Controllers\TeknisiController::class, 'deletePerbaikan']);
+Route::get('/teknisi/perbaikan/show/{id}', [App\Http\Controllers\TeknisiController::class, 'showPerbaikan']);
 
 
 
 
-Route::get('/teknisi/perawatan', [App\Http\Controllers\TeknisiController::class, 'indexPerawatan'])->middleware('auth');
-Route::get('/teknisi/perawatan/create', [App\Http\Controllers\TeknisiController::class, 'createPerawatan'])->middleware('auth');
+Route::get('/teknisi/perawatan', [App\Http\Controllers\TeknisiController::class, 'indexPerawatan']);
+Route::get('/teknisi/perawatan/edit/{id}', [App\Http\Controllers\TeknisiController::class, 'editPerawatan']);
+Route::patch('/teknisi/perawatan/update/{id}', [App\Http\Controllers\TeknisiController::class, 'updatePerawatan']);
+Route::delete('/teknisi/perawatan/delete/{id}', [App\Http\Controllers\TeknisiController::class, 'deletePerawatan']);
+Route::get('/teknisi/perawatan/show/{id}', [App\Http\Controllers\TeknisiController::class, 'showPerawatan']);
+
+
+
+// Route::get('/teknisi/perawatan/create', [App\Http\Controllers\TeknisiController::class, 'createPerawatan'])->middleware('auth');
 
 // End Teknisi
 

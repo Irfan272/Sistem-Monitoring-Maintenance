@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\NewItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,7 @@ class PerawatanRutin extends Model
     protected $fillable = [
         'judul',
         'id_peralatan',
+        'prioritas',
         'keterangan',
         'tanggal_pekerjaan',
         'status',
@@ -25,4 +27,11 @@ class PerawatanRutin extends Model
     public function peralatan(){
         return $this->belongsTo(Peralatan::class, 'id_peralatan', 'id');
     }
+
+    public function sendNewItem()
+{
+    if ($this->waktu->diffInHours(now()) > 1) {
+        $this->notify(new NewItem($this));
+    }
+}
 }

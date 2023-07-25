@@ -65,7 +65,7 @@
         </div>
         <section class="section">
             <div class="row" id="basic-table">
-                <div class="col-12 col-md-12">
+                <div class="col-12 col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Data Peralatan</h4>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-12">
+                <div class="col-12 col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Data Divisi</h4>
@@ -144,7 +144,7 @@
         </section>
         <section class="section">
             <div class="row" id="basic-table">
-                <div class="col-12 col-md-12">
+                <div class="col-12 col-md-6">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Data Akun</h4>
@@ -404,24 +404,7 @@
 
 
     <div class="col-12 col-lg-3">
-        <div class="card">
-            <div class="card-body py-4 px-4">
-                <div class="d-flex align-items-center">
-                
-                    <div class="avatar avatar-xl">
-                        <img src="{{asset('assets/images/faces/1.jpg')}}" alt="Face 1">
-                    </div>
-                    <div class="ms-3 name">
-                        
-                        <h5 class="font-bold">{{auth()->user()->username}}</h5>
-                        <h6 class="text-muted mb-0">{{auth()->user()->no_telpon}}</h6>
-                   
-                   
-                    </div>
-                
-                </div>
-            </div>
-        </div>
+    
         <div class="card">
             <div class="card-header">
                 <h4>Recent Messages</h4>
@@ -439,9 +422,7 @@
                     </div>
                 </div>
                 @endforeach
-                <div class="px-4">
-                    <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start Conversation</button>
-                </div>
+             
                
             </div>
         </div>

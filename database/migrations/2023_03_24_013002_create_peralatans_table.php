@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_divisi');
             $table->date('tahun_pembuatan');
             $table->date('tahun_batas');
+            $table->string('umur')->nullable();
             $table->string('kondisi');
             $table->timestamps();
 

@@ -7,13 +7,13 @@
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Data Peralatan</h3>
                 <a href="/IT/peralatan/create" class="btn btn-success me-1 mb-3 mt-2" id="success" ><i class="bi bi-plus"></i> <span>Tambah Data Peralatan</span></a>
-                <a href="{{ url('peralatan.pdf')}}" class="btn btn-primary me-1 mb-3 mt-2" id="success"> <button class="btn btn-primary me-1 mb-3 mt-2" id="success">  <span>Download</span></button></a>
+              
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        <li class="breadcrumb-item active" aria-current="page">Peralatan</li>
                     </ol>
                 </nav>
             </div>
@@ -26,11 +26,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Peralatan</th>
-                            <th>Merk Peralatan</th>
-                            <th>Divisi</th>
+                            <th>Kode Peralatan</th>
+                            <th>Nama</th>
                             <th>Tahun Masuk</th>
                             <th>Batas Pemakaian</th>
+                            <th>Umur</th>
                             <th>Kondisi</th>
                             <th>Action</th>
                         </tr>
@@ -39,11 +39,11 @@
                         @foreach ($peralatans as $data)
                         <tr>
                             <td>{{$loop->iteration}}</td>
+                            <td>PKU-0{{$data->id}}</td>
                             <td>{{$data->nama_peralatan}}</td>
-                            <td>{{$data->merk_peralatan}}</td>
-                            <td>{{$data->divisi->nama_divisi}}</td>
                             <td>{{$data->tahun_pembuatan}}</td>
                             <td>{{$data->tahun_batas}}</td>
+                            <td>{{$data->umur}}</td>
                             <td>{{$data->kondisi}}</td>
                             <td>
                                 <button type="submit" class="btn m-1 icon icon-left btn-info" data-bs-toggle="modal"
@@ -124,6 +124,11 @@
                       <div class="form-group">
                           <input type="text" placeholder="Sipil"
                               class="form-control" value="{{$data->tahun_batas}}" name="nama_divisi" id="nama_divisi" disabled>
+                      </div>
+                      <label>Umur : </label>
+                      <div class="form-group">
+                          <input type="text" placeholder="Sipil"
+                              class="form-control" value="{{$data->umur}}" name="nama_divisi" id="nama_divisi" disabled>
                       </div>
                       <label>Kondisi : </label>
                       <div class="form-group">

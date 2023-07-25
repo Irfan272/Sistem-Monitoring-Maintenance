@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\Divisi;
 use App\Models\Peralatan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
+
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,7 +49,7 @@ class ITController extends Controller
         //     'keterangan' => $request->keterangan
         // ]);
         $validasiData = $request->validate([
-            'nama_divisi' => 'nullable|string|max:10',
+            'nama_divisi' => 'nullable|string|max:30',
             'keterangan' => 'nullable|string|max:50',
         ]);
         Divisi::create($validasiData);
@@ -64,7 +67,7 @@ class ITController extends Controller
     }
 
     public function editDivisi($id){
-        $divisi = Divisi::where('id',$id)->first();
+        $divisi = Divisi::where('id',$id)->get();
      
         return view('ITSupport.divisi.edit', compact('divisi'));
     } 
@@ -147,23 +150,7 @@ class ITController extends Controller
     public function storeAkun(Request $request){
         
 
-        // User::create([
-             
-        // 'username' =>  $request->username,
-        // 'nama_lengkap' =>  $request->nama_lengkap,
-        // 'email' =>  $request->email,
-        // 'password' =>  Hash::make($request->password) ,
-        // 'tanggal_lahir' =>  $request->tanggal_lahir,
-        // 'jenis_kelamin' =>  $request->jenis_kelamin,
-        // 'alamat' =>  $request->alamat,
-        // 'no_telpon' =>  $request->no_telpon,
-        // 'jabatan' =>  $request->jabatan,
-        // 'id_divisi' =>  $request->id_divisi,
-        // 'id_role' =>  $request->id_role,
-        // ]);
-
-
-        $validasiData = $request->validate([
+            $validasiData = $request->validate([
     
 
         'username' =>  'required|string|max:255',
@@ -193,7 +180,7 @@ class ITController extends Controller
     public function editAkun($id){
         $divisi = Divisi::all();
         $role = Role::all();
-        $akun = User::where('id',$id)->first();
+        $akun = User::where('id',$id)->get();
      
         return view('ITSupport.akun.edit', compact('akun', 'divisi', 'role'));
     } 
@@ -215,19 +202,24 @@ class ITController extends Controller
         // ]);
 
         $validasiData = $request->validate([
-        'username' =>  'required|string|max:255',
-        'nama_lengkap' =>  'required|string|max:255',
-        'email' =>  'required|string|max:255|unique:users',
-        'password' =>  'required|string|max:8',
-        'tanggal_lahir' =>  'required|max:255',
-        'jenis_kelamin' =>  'required',
-        'alamat' =>  'required|string|max:255',
-        'no_telpon' =>  'required|string|max:255',
-        'jabatan' =>  'required|string|max:255',
-        'id_divisi' =>  'required',
-        'id_role' =>  'required|string|max:50',
+    
 
-        ]);
+            'username' =>  'required|string|max:255',
+            'nama_lengkap' =>  'required|string|max:255',
+            'email' =>  'required|string|max:255|unique:users',
+            'password' =>  'required|string|max:20',
+            'tanggal_lahir' =>  'required|max:255',
+            'jenis_kelamin' =>  'required',
+            'alamat' =>  'required|string|max:255',
+            'no_telpon' =>  'required|string|max:255',
+            'jabatan' =>  'required|string|max:255',
+            'id_divisi' =>  'required',
+            'role' =>  'required|string|max:255',
+    
+    
+    
+            ]);
+            $validasiData['password'] = Hash::make($validasiData['password']);
         User::where('id', $id)->update($validasiData);
 
 
@@ -282,10 +274,23 @@ class ITController extends Controller
             'produsen'=> 'required|max:50',
             'id_divisi'=> 'required',
             'tahun_pembuatan'=> 'required|max:255',
-            'tahun_batas'=> 'required|max:255',
+            'tahun_batas' => 'required',
             'kondisi'=> 'required|max:50',
         ]);
 
+        $tahun_pembuatan = $request->input('tahun_pembuatan');
+        $tahun_batas = $request->input('tahun_batas');
+
+        $tanggal_pembuatan = Carbon::parse($tahun_pembuatan);
+        $tanggal_batas = Carbon::parse($tahun_batas);
+        
+        $umur_tahun = $tanggal_batas->diffInYears($tanggal_pembuatan);
+        $umur_bulan = $tanggal_batas->diffInMonths($tanggal_pembuatan) - ($umur_tahun * 12);
+        $umur_hari = $tanggal_batas->diffInDays($tanggal_pembuatan) - $tanggal_pembuatan->addMonths($umur_bulan)->diffInDays($tanggal_batas);
+        
+        $umur = $umur_tahun . ' tahun ' . $umur_bulan . ' bulan ' . $umur_hari . ' hari';
+        
+        $validasiData['umur'] = $umur;
        
         Peralatan::create($validasiData);
 
@@ -301,9 +306,9 @@ class ITController extends Controller
 
     public function editPeralatan($id){
         $divisi = Divisi::all();
-        $peralatans = Peralatan::where('id',$id)->first();
+        $peralatan = Peralatan::where('id',$id)->get();
      
-        return view('ITSupport.peralatan.edit', compact('peralatans', 'divisi'));
+        return view('ITSupport.peralatan.edit', compact('peralatan', 'divisi'));
     } 
 
     public function updatePeralatan(Request $request, $id){
@@ -326,10 +331,24 @@ class ITController extends Controller
             'produsen'=> 'required|max:50',
             'id_divisi'=> 'required',
             'tahun_pembuatan'=> 'required|max:255',
-            'tahun_batas'=> 'required|max:255',
+            'tahun_batas' => 'required',
             'kondisi'=> 'required|max:50',
-    
-            ]);
+        ]);
+
+        $tahun_pembuatan = $request->input('tahun_pembuatan');
+        $tahun_batas = $request->input('tahun_batas');
+
+        $tanggal_pembuatan = Carbon::parse($tahun_pembuatan);
+        $tanggal_batas = Carbon::parse($tahun_batas);
+        
+        $umur_tahun = $tanggal_batas->diffInYears($tanggal_pembuatan);
+        $umur_bulan = $tanggal_batas->diffInMonths($tanggal_pembuatan) - ($umur_tahun * 12);
+        $umur_hari = $tanggal_batas->diffInDays($tanggal_pembuatan) - $tanggal_pembuatan->addMonths($umur_bulan)->diffInDays($tanggal_batas);
+        
+        $umur = $umur_tahun . ' tahun ' . $umur_bulan . ' bulan ' . $umur_hari . ' hari';
+        
+        $validasiData['umur'] = $umur;
+
             Peralatan::where('id', $id)->update($validasiData);
 
 

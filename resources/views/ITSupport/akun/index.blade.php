@@ -12,7 +12,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        <li class="breadcrumb-item active" aria-current="page">Akun</li>
                     </ol>
                 </nav>
             </div>
@@ -38,15 +38,15 @@
                     <tbody>
                         @foreach ($akun as $data)
                         <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$data->username}}</td>
-                            <td>{{$data->nama_lengkap}}</td>
-                            <td>{{$data->email}}</td>
-                            <td>{{$data->no_telpon}}</td>
-                            <td>{{$data->jabatan}}</td>
-                            <td>{{$data->divisi->nama_divisi}}</td>
-                            <td>{{$data->role}}</td>
-                            <td>
+                            <td class="wrap-text">{{$loop->iteration}}</td>
+                            <td class="wrap-text">{{$data->username}}</td>
+                            <td class="wrap-text">{{$data->nama_lengkap}}</td>
+                            <td class="wrap-text">{{$data->email}}</td>
+                            <td class="wrap-text">{{$data->no_telpon}}</td>
+                            <td class="wrap-text">{{$data->jabatan}}</td>
+                            <td class="wrap-text">{{$data->divisi->nama_divisi}}</td>
+                            <td class="wrap-text">{{$data->role}}</td>
+                            <td class="wrap-text">
                                 <button type="submit" class="btn m-1 icon icon-left btn-info" data-bs-toggle="modal"
                                 data-bs-target="#akunModal{{$data->id}}"><i data-feather="eye"></i> View</button>
                                 {{-- <a href="{{url('IT/divisi/modal', $divisi->id)}}" class="btn m-1 icon icon-left btn-info" data-bs-toggle="modal"

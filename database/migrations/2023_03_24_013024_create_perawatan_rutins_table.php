@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->unsignedBigInteger('id_peralatan');
+            $table->string('prioritas');
             $table->date('tanggal_pekerjaan');
             $table->string('keterangan');
             $table->unsignedBigInteger('id_teknisi');

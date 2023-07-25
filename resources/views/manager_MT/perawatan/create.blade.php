@@ -6,8 +6,17 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Tambah Jadwal Perawatan</h4>
+                    <h4 class="card-title">Tambah Perawatan Rutin</h4>
                 </div>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                 <div class="card-content">
                     <div class="card-body">
                         <form class="form" action="/manager/perawatan/store" method="POST">
@@ -32,13 +41,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="last-name-column">Tanggal Pekerjaan</label>
-                                        <input type="date" id="tanggal_pekerjaan" class="form-control"
-                                            placeholder="Prioritas" name="tanggal_pekerjaan">
-                                    </div>
-                                </div>
+                                
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="city-column">Keterangan</label>
@@ -60,11 +63,19 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="email-id-column">Status</label>
-                                        <input type="text" id="status" class="form-control"
-                                            name="status" placeholder="Status">
+                                        <label for="company-column">Prioritas</label>
+                                           <select name="prioritas" id="prioritas" class="form-control">
+                                                <option disabled value="">Pilih Prioritas</option>
+                                            
+                                                    <option value="critical">Critical</option>
+                                                    <option value="height">Height</option>
+                                                    <option value="medium">Medium</option>
+                                                    <option value="low">Low</option>
+                                              
+                                            </select>
                                     </div>
                                 </div>
+                             
                                 <div class="col-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                     <a href="/manager/perawatan/" class="btn btn-light-secondary me-1 mb-1">Batal</a>

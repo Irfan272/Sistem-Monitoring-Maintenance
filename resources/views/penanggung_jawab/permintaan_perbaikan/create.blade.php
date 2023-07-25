@@ -8,6 +8,15 @@
                 <div class="card-header">
                     <h4 class="card-title">Pengajuan Perbaikan</h4>
                 </div>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                 <div class="card-content">
                     <div class="card-body">
                         <form class="form" action="/user/permintaan/store" method="POST">
@@ -36,12 +45,14 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="city-column">Nama User</label>
-                                        <select name="id_user" id="id_user" class="form-control">
+                                        {{-- <select name="id_user" id="id_user" class="form-control">
                                             <option disabled value="">Pilih Peralatan</option>
                                             @foreach ($user as $data)
                                                 <option value="{{$data->id}}">{{$data->username}}</option>
                                              @endforeach
-                                        </select>
+                                        </select> --}}
+                                        <input type="text" id="id_user"  class="form-control"
+                                        name="id_user" value="{{auth()->user()->username}}" readonly>
                                
                                     </div>
                                 </div>

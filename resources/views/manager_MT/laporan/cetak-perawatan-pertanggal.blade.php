@@ -1,88 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager MT</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="{{asset('assets/css/main/app.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/main/app-dark.css')}}">
-    <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.svg')}}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.png')}}" type="image/png">
-    <link rel="stylesheet" href="{{asset('assets/css/shared/iconly.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-dztbJg6ukL7fJQ2adz0RUCfLYGxmf4xs9XnfY5eklHO5B+brLZ5LJjU8f6RmP6kNJ4xG4X4Z5d5ZufiiMw14hw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .wrap-text {
+            word-wrap: break-word;
+            white-space: normal;
+        }
+    </style>
+    <title>Laporan Perawatan</title>
 </head>
 
 <body>
-<div class="page-heading">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Cetak Penjadwalan Perawatan</h3>
-                {{-- <a href="/manager/perawatan/create" class="btn btn-success me-1 mb-3 mt-2" id="success" ><i class="bi bi-plus"></i> <span>Tambah Data Peralatan</span></a> --}}
-            </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
-                    </ol>
-                </nav>
-            </div>
+    <div class="container">
+        <div class="logo">
+            {{-- <h2>PT. PRIMA KONSTRUKSI UTAMA</h2> --}}
+            <img src="{{asset('assets/images/logo/logo_pku.png')}}" alt="Logo" srcset="" style="width: 600px; height: 90px">
+        </div>
+        <div class="text-center mt-5">
+            <h4 class="text-center mt-5">Laporan Perawatan</h4>
+            <p>Range tanggal: {{ $tanggal_mulai }} s/d {{ $tanggal_terakhir }}</p
+        </div>
+        <div class="content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Kode Peralatan</th>
+                        <th scope="col">Judul</th>
+                        <th scope="col">Nama Peralatan</th>
+                        <th scope="col">Nama Teknisi</th>
+                        <th scope="col">Keterangan</th>
+                        {{-- <th scope="col">Prioritas</th> --}}
+                        <th scope="col">Tanggal Perbaikan</th>
+                        {{-- <th scope="col">Lokasi</th> --}}
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($cetakperawatan as $data)
+                        
+         
+                    <tr>
+                        <th scope="row">{{$loop->iteration}}</th>
+                        <th class="wrap-text">PKU-0{{$data->id}}</th>
+                        <td class="wrap-text">{{$data->judul}}</td>
+                        <td class="wrap-text ">{{$data->peralatan->nama_peralatan}}</td>
+                        <td class="wrap-text">{{$data->user->username}}</td>
+                        <td class="wrap-text">{{$data->keterangan}}</td>
+                        {{-- <td class="wrap-text">{{$data->prioritas}}</td> --}}
+                        <td class="wrap-text">{{$data->tanggal_pekerjaan}}</td>
+                        <td class="wrap-text">{{$data->status}}</td>
+                        {{-- <td class="wrap-text">aass</td> --}}
+                    </tr>
+                    @endforeach
+                    <tr>
+
+                        <td class="text-center fw-bold" colspan="9">Total : {{$total}}</td>
+
+
+
+
+                    </tr>
+                  
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end">
+            <p>Serang, {{$tanggal_cetak}}</p>
+            <p class="text-decoration-underline me-5 mt-5 w-">Khairul</p>
+            <p>Manager Maintenance</p>
         </div>
     </div>
-    <section class="section">
-        <div class="card">
-            <div class="card-body">
-                <table class="static" align="center" rules="all" vorder="1px" style="width: 75%">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Judul</th>
-                            <th>Peralatan</th>
-                            <th>Tanggal Pekerjaan</th>
-                            <th>Keterangan</th>
-                            <th>Nama Teknisi</th>
-                            <th>Status</th>
-                 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($cetakperawatan as $data)
-                        <tr>
-                            <td>{{$loop->iteration}}</td>
-                            <td>{{$data->judul}}</td>
-                            <td>{{$data->peralatan->nama_peralatan}}</td>
-                            <td>{{$data->tanggal_pekerjaan}}</td>
-                            <td>{{$data->keterangan}}</td>
-                            <td>{{$data->user->username}}</td>
-                            <td>
-                                <span class="badge bg-success">Active</span>
-                            </td>
-                      
-    
-                        </tr>
-                        @endforeach
-                
-                     
-                </table>
-            </div>
-        </div>
 
-    </section>
+    <!-- Optional JavaScript; choose one of the two! -->
 
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 
-
-
-</div>
-
-<script> 
-window.print();
-</script>
-
-
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
 </body>
 
 </html>

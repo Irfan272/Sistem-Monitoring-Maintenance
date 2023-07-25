@@ -6,11 +6,21 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Tambah Jadwal Perawatan</h4>
+                    <h4 class="card-title">Edit Perawatan Rutin</h4>
                 </div>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form" action="/manager/perawatan/update/{{$perawatan->id}}" method="POST">
+                        @foreach ($perawatan as $data)
+                        <form class="form" action="/manager/perawatan/update/{{$data->id}}" method="POST">
                             
                             <div class="row">
                                 @csrf
@@ -19,46 +29,62 @@
                                     <div class="form-group">
                                         <label for="first-name-column">Judul</label>
                                         <input type="text" id="judul" class="form-control"
-                                            placeholder="Judul" name="judul" value="{{$perawatan->judul}}">
+                                            placeholder="Judul" name="judul" value="{{$data->judul}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="last-name-column">Peralatan</label>
                                         <select name="id_peralatan" id="id_peralatan" class="form-control">
-                                            @foreach ($peralatan as $data)
-                                            @if (old('id_peralatan', $perawatan->id_peralatan) == $data->id)
-                                            <option value="{{$data->id}}" selected>{{$data->nama_peralatan}}</option>
+                                            @foreach ($peralatan as $p)
+                                            @if (old('id_peralatan', $data->id_peralatan) == $p->id)
+                                            <option value="{{$p->id}}" selected>{{$p->nama_peralatan}}</option>
                                             @endif
-                                                <option value="{{$data->id}}">{{$data->nama_peralatan}}</option>
+                                                <option value="{{$p->id}}">{{$p->nama_peralatan}}</option>
                                              @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="last-name-column">Tanggal Pekerjaan</label>
-                                        <input type="date" id="tanggal_pekerjaan" class="form-control" value="{{$perawatan->tanggal_pekerjaan}}"
-                                            placeholder="Prioritas" name="tanggal_pekerjaan" value="tanggal_pekerjaan">
+                                        <label for="city-column">Keterangan</label>
+                                        <input type="text" id="keterangan" class="form-control" placeholder="Keterangan"
+                                            name="keterangan" value="{{$data->keterangan}}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="city-column">Keterangan</label>
-                                        <input type="text" id="keterangan" class="form-control" placeholder="Keterangan"
-                                            name="keterangan" value="{{$perawatan->keterangan}}" >
+                                        <label for="company-column">Prioritas</label>
+                                        <select name="prioritas" id="prioritas" class="form-control">
+                                            <option disabled value="">Pilih Prioritas</option>                                          
+                                                               
+
+                                                <option @if ($data->prioritas == 'critical')
+                                                    selected
+                                                @endif value="critical">Critical</option>
+                                                <option @if ($data->prioritas == 'height')
+                                                    selected
+                                                @endif value="height">Height</option>
+                                                <option @if ($data->prioritas == 'medium')
+                                                    selected
+                                                @endif value="medium">Medium</option>
+                                                <option @if ($data->prioritas == 'low')
+                                                    selected
+                                                @endif value="low">Low</option>
+                                        </select>
                                     </div>
                                 </div>
+                               
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="country-floating">Nama Teknisi</label>
                                         <select name="id_teknisi" id="id_teknisi" class="form-control">
                                                        {{-- <option disabled value="" value="{{$permintaan->id_user}}">Pilih Divisi</option> --}}
-                                                       @foreach ($user as $data)
-                                                       @if (old('id_user', $perawatan->id_user) == $data->id)
-                                                            <option value="{{$data->id}}" selected>{{$data->username}}</option>
+                                                       @foreach ($user as $u)
+                                                       @if (old('id_user', $data->id_user) == $u->id)
+                                                            <option value="{{$u->id}}" selected>{{$u->username}}</option>
                                                        @else
-                                                       <option value="{{$data->id}}">{{$data->username}}</option>
+                                                       <option value="{{$u->id}}">{{$u->username}}</option>
                                                        @endif
               
                                                         @endforeach
@@ -66,11 +92,19 @@
                                
                                     </div>
                                 </div>
+
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="email-id-column">Status</label>
-                                        <input type="text" id="status" class="form-control"
-                                            name="status" placeholder="Status" value="{{$perawatan->status}}">
+                                        <label for="company-column">Status</label>
+                                        <select name="status" id="status" class="form-control">
+                                            <option disabled value="">Pilih Status</option>
+                                            <option @if ($data->status == 'Dalam Pengerjaan')
+                                                    selected
+                                                @endif value="Dalam Pengerjaan">Dalam Pengerjaan</option>
+                                                <option @if ($data->status == 'Selesai')
+                                                    selected
+                                                @endif value="Selesai">Selesai</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
@@ -79,6 +113,8 @@
                                 </div>
                             </div>
                         </form>
+                        @endforeach
+                     
                     </div>
                 </div>
             </div>

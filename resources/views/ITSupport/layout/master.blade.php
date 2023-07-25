@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Navbar - Mazer Admin Dashboard</title>
+    <title>Maintenance | IT Support</title>
 
     <link rel="stylesheet" href="{{asset('assets/css/main/app.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/main/app-dark.css')}}">
@@ -34,6 +34,7 @@
     <script src="{{asset('assets/js/app.js')}}"></script>
 
     <!-- Need: Apexcharts -->
+    <script src="{{asset('assets/js/navabr.js')}}"></script>
 <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
 <script src="{{asset('assets/extensions/sweetalert2/sweetalert2.min.js')}}"></script>

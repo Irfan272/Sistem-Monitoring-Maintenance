@@ -9,6 +9,7 @@ use App\Models\PerawatanRutin;
 use App\Models\PengajuanPerbaikan;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\User;
+use App\Notifications\NewItem;
 
 class ManagerController extends Controller
 {
@@ -25,8 +26,11 @@ class ManagerController extends Controller
         $perawatan = PerawatanRutin::all();
         $peralatan = Peralatan::all();
         $perbaikan = PengajuanPerbaikan::all();
+        $divisi = Divisi::all();
+        $akun = User::all();
+        // $akun = User::with('divisi')->paginate(10);
 
-        return view('manager_MT.dashboard', compact('total_perawatan', 'total_peralatan', 'total_perbaikan', 'peralatan', 'perbaikan', 'perawatan'));
+        return view('manager_MT.dashboard', compact('akun','divisi','total_perawatan', 'total_peralatan', 'total_perbaikan', 'peralatan', 'perbaikan', 'perawatan'));
     }
 
 
@@ -165,7 +169,9 @@ class ManagerController extends Controller
         // $nama_peralatan = $request->input('nama_peralatan');
         $cetakRiwayat = Peralatan::where('nama_peralatan', $nama_peralatan)->get();
         $peralatan = Peralatan::where('nama_peralatan', $nama_peralatan)->get()->first();
+
+        $riwayat = Peralatan::with('perawatan', 'pengajuan')->get();
         // dd([$cetakRiwayat]);
-        return view('manager_MT.laporan.cetak-nama-peralatan', compact('cetakRiwayat', 'peralatan'));
+        return view('manager_MT.laporan.cetak-nama-peralatan', compact('cetakRiwayat', 'peralatan', 'riwayat'));
     }
 }

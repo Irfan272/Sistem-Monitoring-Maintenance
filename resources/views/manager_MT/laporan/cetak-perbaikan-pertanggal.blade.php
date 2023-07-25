@@ -27,7 +27,7 @@
             white-space: normal;
         }
     </style>
-    <title>Laporan Perawatan</title>
+    <title>Laporan Perbaikan</title>
 </head>
 
 <body>
@@ -37,62 +37,53 @@
             <img src="{{asset('assets/images/logo/logo_pku.png')}}" alt="Logo" srcset="" style="width: 600px; height: 90px">
         </div>
         <div class="text-center mt-5">
-            <h4 class="text-center mt-5">Kartu Riwayat Peralatan</h4>
-            <p>Nama Peralatan: {{ $peralatan->nama_peralatan }} </p>
-            <p>Kode Peralatan: PKU-0{{ $peralatan->id }} </p>
+            <h4 class="text-center mt-5">Laporan Perbaikan</h4>
+            <p>Range tanggal: {{ $tanggal_mulai }} s/d {{ $tanggal_terakhir }}</p
         </div>
         <div class="content">
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Tanggal Perawatan</th>
+                        <th scope="col">Kode Perbaikan</th>
+                        <th scope="col">Judul</th>
+                        <th scope="col">Nama Peralatan</th>
+                        <th scope="col">Penanggung Jawab</th>
+                        <th scope="col">Nama Teknisi</th>
                         <th scope="col">Keterangan</th>
-                        <th scope="col">Teknisi</th>
+                        <th scope="col">Prioritas</th>
+                        <th scope="col">Tanggal Perbaikan</th>
+                        <th scope="col">Lokasi</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Judul Perbaikan</th>
-                        <th scope="col">Tanggal Perawatan</th>
-                        <th scope="col">Keterangan</th>
-                        <th scope="col">Teknisi</th>
-                        <th scope="col">Status</th>
-                     
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($riwayat as $data) 
+                    @foreach ($cetakperbaikan as $data)
                         
-                   @foreach ($data->perawatan as $perawatan)
-                   @foreach ($data->pengajuan as $perbaikan)
+         
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
-                        {{-- @foreach ($data->perawatan as $perawatan) --}}
-                        <td class="wrap-text">{{$perawatan->tanggal_pekerjaan}}</td>
-                        <td class="wrap-text">{{$perawatan->keterangan}}</td>
-                        <td class="wrap-text">{{$perawatan->user->username}}</td>
-                        <td class="wrap-text">{{$perawatan->status}}</td>
-                        
-                        {{-- @endforeach --}}
-                    
-                        <th class="wrap-text">{{$perbaikan->judul}}</th>
-                        <td class="wrap-text">{{$perbaikan->tanggal_pekerjaan}}</td>\
-                        <td class="wrap-text">{{$perbaikan->keterangan}}</td>
-                        <td class="wrap-text">{{$perawatan->user->username}}</td>
-                        <td class="wrap-text">{{$perawatan->status}}</td>
-                     
-                       
-                        {{-- <td class="wrap-text">{{$data->prioritas}}</td>
+                        <td class="wrap-text">PB-0{{$data->id}}</td>
+                        <td class="wrap-text">{{$data->judul}}</td>
+                        <td class="wrap-text ">{{$data->peralatan->nama_peralatan}}</td>
+                        <td class="wrap-text">{{$data->user->username}}</td>
+                        {{-- Nanti diganti dengan nama teknisi --}}
+                        {{-- <td class="wrap-text">      @if ($data->teknisi && $data->teknisi->user)
+                            {{ $data->teknisi->user->username }}
+                        @endif</td>  --}}
+                        <td class="wrap-text">{{$data->teknisi->username}}</td>
+                        <td class="wrap-text">{{$data->keterangan}}</td>
+                        <td class="wrap-text">{{$data->prioritas}}</td>
                         <td class="wrap-text">{{$data->tanggal_pekerjaan}}</td>
-                        <td class="wrap-text">{{$data->status}}</td> --}}
-                        
+                        <td class="wrap-text">{{$data->lokasi}}</td> 
+                        <td class="wrap-text">{{$data->status}}</td>
                     </tr>
-                  
-                       @endforeach
-                       @endforeach
-                       @endforeach
-                    <tr> 
-                        <td></td>
-                        <td class="text-center fw-bold" colspan="4">Total Perawatan : </td> 
-                        <td class="text-center fw-bold" colspan="4">Total Perbaikan : </td>
+                    @endforeach
+                    <tr>
+
+                        <td class="text-center fw-bold" colspan="10">Total : {{$total}}</td>
+
+
 
 
                     </tr>
@@ -102,9 +93,9 @@
         </div>
 
         <div class="text-end">
-            {{-- <p>Serang, {{$tanggal_cetak}}</p> --}}
-            <p class="text-decoration-underline me-5 mt-5 w-">Khairul</p>
-            <p>Manager Maintenance</p>
+            <p>Serang, {{$tanggal_cetak}}</p>
+            <p class="text-decoration-underline me-5 mt-5 w-">{{auth()->user()->username}}</p>
+            <p>{{auth()->user()->jabatan}}</p>
         </div>
     </div>
 

@@ -17,9 +17,11 @@ class NewItem extends Notification
      *
      * @return void
      */
-    public function __construct()
+
+     protected $JadwalPerawatan;
+    public function __construct($JadwalPerawatan)
     {
-        //
+        $this->JadwalPerawatan = $JadwalPerawatan;
     }
 
     /**
@@ -30,7 +32,7 @@ class NewItem extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -57,6 +59,14 @@ class NewItem extends Notification
     {
         return [
             //
+        ];
+    }
+
+    public function toDatabase($notifiable){
+        return [
+            'title' => 'Pengingat Jadwal Perbaikan',
+        'time' => now()->format('Y-m-d H:i:s'),
+        'url' => '/manager/dashboard' . $this->JadwalPerawatan->id,
         ];
     }
 }

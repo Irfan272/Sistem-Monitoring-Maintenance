@@ -8,6 +8,15 @@
                 <div class="card-header">
                     <h4 class="card-title">Pengajuan Perbaikan</h4>
                 </div>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                 <div class="card-content">
                     <div class="card-body">
                         <form class="form" action="/user/permintaan/update/{{$permintaan->id}}" method="POST">
@@ -41,17 +50,8 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="city-column">Nama User</label>
-                                        <select name="id_user" id="id_user" class="form-control">
-                                            {{-- <option disabled value="" value="{{$permintaan->id_user}}">Pilih Divisi</option> --}}
-                                            @foreach ($user as $data)
-                                            @if (old('id_user', $permintaan->id_user) == $data->id)
-                                                 <option value="{{$data->id}}" selected>{{$data->username}}</option>
-                                            @else
-                                            <option value="{{$data->id}}">{{$data->username}}</option>
-                                            @endif
-   
-                                             @endforeach
-                                        </select>
+                                        <input type="text" id="id_user"  class="form-control"
+                                        name="id_user" value="{{auth()->user()->username}}" readonly>
                                
                                     </div>
                                 </div>
@@ -65,8 +65,26 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="company-column">Prioritas</label>
-                                        <input type="text" id="prioritas" class="form-control"
-                                            name="prioritas" placeholder="Prioritas" value="{{$permintaan->prioritas}}">
+                                       
+
+
+                                            <select name="prioritas" id="prioritas" class="form-control">
+                                                <option disabled value="">Pilih Prioritas</option>                                          
+                                                                   
+
+                                                    <option @if ($data->prioritas == 'critical')
+                                                        selected
+                                                    @endif value="critical">Critical</option>
+                                                    <option @if ($data->prioritas == 'height')
+                                                        selected
+                                                    @endif value="height">Height</option>
+                                                    <option @if ($data->prioritas == 'medium')
+                                                        selected
+                                                    @endif value="medium">Medium</option>
+                                                    <option @if ($data->prioritas == 'low')
+                                                        selected
+                                                    @endif value="low">Low</option>
+                                            </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -74,13 +92,6 @@
                                         <label for="email-id-column">Lokasi</label>
                                         <input type="text" id="lokasi" class="form-control"
                                             name="lokasi" placeholder="Lokasi" value="{{$permintaan->lokasi}}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="email-id-column">Tanggal Perkerjaan</label>
-                                        <input type="date" id="tanggal_pekerjaan" class="form-control"
-                                            name="tanggal_pekerjaan" placeholder="Tanggal Pekerjaan" value="{{$permintaan->tanggal_pekerjaan}}">
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">

@@ -58,5 +58,13 @@ class User extends Authenticatable
     //     return $this->belongsTo(Role::class, 'id_role', 'id');
     // }
 
+    public function PengajuanPerbaikan(){
+        return $this->hasMany(PengajuanPerbaikan::class);
+    }
+
+    public function PerawatanRutin(){
+        return $this->hasMany(PerawatanRutin::class);
+    }
+
     
 }

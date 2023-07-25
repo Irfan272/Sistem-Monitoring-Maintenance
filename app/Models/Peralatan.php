@@ -17,6 +17,7 @@ class Peralatan extends Model
         'id_divisi',
         'tahun_pembuatan',
         'tahun_batas',
+        'umur',
         'kondisi',
     ];
 
@@ -26,10 +27,10 @@ class Peralatan extends Model
     }
 
     public function perawatan(){
-        return $this->hasMany(PerawatanRutin::class);
+        return $this->hasMany(PerawatanRutin::class, 'id_peralatan', 'id');
     }
     
     public function pengajuan(){
-        return $this->hasMany(PengajuanPerbaikan::class);
+        return $this->hasMany(PengajuanPerbaikan::class, 'id_peralatan', 'id');
     }
 }

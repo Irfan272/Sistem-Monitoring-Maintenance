@@ -8,6 +8,15 @@
                 <div class="card-header">
                     <h4 class="card-title">Tambah Data Peralatan</h4>
                 </div>
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                 <div class="card-content">
                     <div class="card-body">
                         <form class="form" action="/IT/peralatan/store" method="POST" >
@@ -23,8 +32,12 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="last-name-column">Jenis Peralatan</label>
-                                        <input type="text" id="jenis_peralatan" class="form-control"
-                                            placeholder="Jenis Peralatan" name="jenis_peralatan">
+                                            <select name="jenis_peralatan" id="jenis_peralatan" class="form-control" value="{{old('jenis_peralatan')}}">
+                                                <option value="" disabled>Pilih Jenis Peralatan</option>
+                                                <option value="Alat Berat">Alat Berat</option>
+                                                <option value="Alat Ringan">Alat Ringan</option>                                             
+                                    
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -62,23 +75,29 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="email-id-column">Tahun Pembuatan</label>
+                                        <label for="email-id-column">Tahun Masuk</label>
                                         <input type="date" id="tahun_pembuatan" class="form-control"
                                             name="tahun_pembuatan" placeholder="Tahun Pembuatan">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
-                                        <label for="email-id-column">Tahun Batas Pemakaian</label>
+                                        <label for="email-id-column">Tahun Batas</label>
                                         <input type="date" id="tahun_batas" class="form-control"
-                                            name="tahun_batas" placeholder="Tahun Batas">
+                                            name="tahun_batas" placeholder="Tahun Pembuatan">
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="company-column">Kondisi</label>
-                                        <input type="text" id="kondisi" class="form-control"
-                                            name="kondisi" placeholder="Kondisi">
+                                        <select name="kondisi" id="kondisi" class="form-control" value="{{old('kondisi')}}">
+                                                <option value="" disabled>Pilih Kondisi</option>
+                                                <option value="Baru">Baru</option>
+                                                <option value="Bekas">Bekas</option>
+                                                <option value="Baik">Baik</option>
+                                                <option value="Rusak">Rusak</option>
+                                    
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">

@@ -185,7 +185,7 @@
             </div>
         </section>
     <!--View Modal -->
-    {{-- @foreach ($divisi as $data)
+    @foreach ($divisi as $data)
          
 
      <div class="modal fade" id="divisiModal{{$data->id}}" tabindex="-1" role="dialog"
@@ -220,19 +220,19 @@
                         <i class="bx bx-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Close</span>
                     </button>
-                    {{-- <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                         <i class="bx bx-check d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Accept</span>
-                    </button> --}}
-                {{-- </div>
+                    </button>
+                </div>
              </div>
           
          </div>
      </div>
      </div>
-     @endforeach --}}
+     @endforeach
    
-     {{-- @foreach ($peralatan as $data)    
+     @foreach ($peralatan as $data)    
      <div class="modal fade" id="peralatanModal{{$data->id}}" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -295,17 +295,17 @@
                            <i class="bx bx-x d-block d-sm-none"></i>
                            <span class="d-none d-sm-block">Close</span>
                        </button>
-                       {{-- <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                       <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                            <i class="bx bx-check d-block d-sm-none"></i>
                            <span class="d-none d-sm-block">Accept</span>
-                       </button> --}}
-                   {{-- </div>
+                       </button>
+                   </div>
                 </div>
              
             </div>
         </div>
-        </div> --}} --}}
-    {{-- @endforeach --}} --}}
+        </div> 
+    @endforeach
 
 
 
@@ -344,12 +344,12 @@
                                <input type="date" id="tanggal_lahir" placeholder="Tanggal Lahir"
                                    class="form-control" value=" {{$data->tanggal_lahir}}" disabled>
                            </div>
-                           {{-- <label>Tempat Lahir: </label>
+                           <label>Tempat Lahir: </label>
                            <div class="form-group">
                                <input type="text" placeholder="Tempat Lahir"
                                    class="form-control" value=" {{$data->tempat_lahir}}" disabled>
-                           </div> --}}
-                           {{-- <label>Jenis Kelamin: </label>
+                           </div>
+                           <label>Jenis Kelamin: </label>
                            <div class="form-group">
                                <input type="text" id="jenis_kelamin" placeholder="Email Address"
                                    class="form-control" value=" {{$data->jenis_kelamin}}" disabled>
@@ -388,64 +388,43 @@
                            <i class="bx bx-x d-block d-sm-none"></i>
                            <span class="d-none d-sm-block">Close</span>
                        </button>
-                       {{-- <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                       <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
                            <i class="bx bx-check d-block d-sm-none"></i>
                            <span class="d-none d-sm-block">Accept</span>
-                       </button> --}}
-                   {{-- </div>
+                       </button>
+                   </div>
                 </div>
              
             </div>
         </div>
-       </div> --}} --}}
-    {{-- @endforeach --}}
+       </div> 
+    @endforeach --}}
 
-{{-- </div> --}} --}}
+</div> 
 
 
-    {{-- <div class="col-12 col-lg-3">
-        <div class="card">
-            <div class="card-body py-4 px-4">
-                <div class="d-flex align-items-center">
-                
-                    <div class="avatar avatar-xl">
-                        <img src="{{asset('assets/images/faces/1.jpg')}}" alt="Face 1">
-                    </div>
-                    <div class="ms-3 name">
-                        
-                        <h5 class="font-bold">{{$data->id}}</h5>
-                        <h6 class="text-muted mb-0">{{$data->no_telpon}}</h6>
-                   
-                   
-                    </div>
-                
-                </div>
-            </div>
-        </div>
+    <div class="col-12 col-lg-3">
+     
         <div class="card">
             <div class="card-header">
                 <h4>Recent Messages</h4>
             </div>
             <div class="card-content pb-4">
                 @foreach ($akun as $data)
-                                 
                 <div class="recent-message d-flex px-4 py-3">
                     <div class="avatar avatar-lg">
                         <img src="{{asset('assets/images/faces/4.jpg')}}">
                     </div>
                     <div class="name ms-4">
-                        <h5 class="mb-1">{{$data->jenis_kelamin}}</h5>
+                        <h5 class="mb-1">{{$data->username}}</h5>
                         <h6 class="text-muted mb-0">{{$data->no_telpon}}</h6>
                     </div>
                 </div>
                 @endforeach
-                <div class="px-4">
-                    <button class='btn btn-block btn-xl btn-outline-primary font-bold mt-3'>Start Conversation</button>
-                </div>
                
             </div>
         </div>
      
-    </div> --}}
+    </div> 
 </section>
 @endsection

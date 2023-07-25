@@ -12,7 +12,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        <li class="breadcrumb-item active" aria-current="page">Divisi</li>
                     </ol>
                 </nav>
             </div>
@@ -21,7 +21,7 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <table class="table table-striped" id="table1">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>No</th>

@@ -12,22 +12,45 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        <li class="breadcrumb-item active" aria-current="page">Approval Perbaikan</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
     <section class="section">
+        
         <div class="card">
+            
             <div class="card-body">
+                <div class="row">
+             
+   
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="last-name-column">Tanggal Awal</label>
+                            <input type="date" id="tanggal_awal" class="form-control"
+                                placeholder="Prioritas" name="tanggal_awal">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="last-name-column">Tanggal Akhir</label>
+                            <input type="date" id="tanggal_akhir" class="form-control"
+                                placeholder="Prioritas" name="tanggal_akhir">
+                        </div>
+                    </div>
+      
+                </div>
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kode Perbaikan</th>
                             <th>Judul</th>
                             <th>Mesin</th>
-                            <th>User</th>
+                            <th>Penanggung Jawab</th>
                             <th>Prioritas</th>
                             <th>Lokasi</th>
                             <th>Tanggal Pengerjaan</th>
@@ -39,6 +62,7 @@
                         @foreach ($permintaan as $data)
                         <tr>
                             <td>{{$loop->iteration}}</td>
+                            <td>PB-0{{$data->id}}</td>
                             <td>{{$data->judul}}</td>
                             <td>{{$data->peralatan->nama_peralatan}}</td>
                             <td>{{$data->user->username}}</td>
@@ -46,7 +70,7 @@
                             <td>{{$data->lokasi}}</td>
                             <td>{{$data->tanggal_pekerjaan}}</td>
                              <td>
-                                <span class="badge bg-success">Active</span>
+                                {{$data->status}}
                             </td>
                             <td>
                                 <button type="submit" class="btn m-1 icon icon-left btn-info" data-bs-toggle="modal"

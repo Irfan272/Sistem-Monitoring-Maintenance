@@ -24,10 +24,16 @@ class PengajuanPerbaikan extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'id_user', 'id');
-        return $this->belongsTo(User::class, 'id_teknisi', 'id');
+       
+    }
+
+    public function teknisi(){
+        return $this->hasOne(User::class, 'id', 'id_teknisi');
     }
 
     public function peralatan(){
         return $this->belongsTo(Peralatan::class, 'id_peralatan', 'id');
     }
+
+    
 }

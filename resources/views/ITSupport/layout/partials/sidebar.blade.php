@@ -4,7 +4,9 @@
             <div class="logo">
                 <a href="/IT/dashboard"><img src="{{asset('assets/images/logo/logo_pku.png')}}" alt="Logo" srcset="" style="width: 200px; height: 30px"></a>
             </div>
-        
+            <div class="sidebar-toggler  x">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+            </div>
         </div>
     </div>
     <div class="sidebar-menu">
